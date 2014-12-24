@@ -2,6 +2,8 @@
 
 Leiningen plugin to compile sass and scss files.
 
+[![Clojars Project](http://clojars.org/lein-sass/latest-version.svg)](http://clojars.org/lein-sass)
+
 ## Installation
 
 You can install the pluggin by adding lein-sass to your `project.clj` file in the `plugin` section:
