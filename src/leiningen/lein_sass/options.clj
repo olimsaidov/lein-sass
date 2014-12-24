@@ -15,8 +15,8 @@
 
 (defn- default-gem [src-type]
   (case src-type
-    :sass {:gem-name "sass" :gem-version "3.2.7"}
-    :scss {:gem-name "sass" :gem-version "3.2.7"}))
+    :sass {:gem-name "sass" :gem-version "3.3.0.rc.2"}
+    :scss {:gem-name "sass" :gem-version "3.3.0.rc.2"}))
 
 (defn- compression-style [src-type]
   (when (or (= src-type :sass) (= src-type :scss))
