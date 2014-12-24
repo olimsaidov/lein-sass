@@ -48,11 +48,13 @@
         (ref-set rendering-engine (.runScriptlet @c "Sass::Engine"))
         (ref-set rendering-options (build-sass-options options))))))
 
+(defn- is-partial? [file]
+  (.startsWith (.getName file) "_"))
+
 (defn- source-file-filter [src-type]
   #(let [f %
          extension-filter (extension-filter (name src-type))]
-    (and (extension-filter f)
-      (not (.startsWith (.getName f) "_")))))
+    (and (extension-filter f) (not (is-partial? f)))))
 
 (defn- files-from [{:keys [src src-type output-directory output-extension]}]
   (dest-files-from (source-file-filter src-type) (name src-type) src output-directory output-extension))
