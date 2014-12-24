@@ -46,7 +46,7 @@
           (:src (extract-options :sass {:sass {}}))))
 
       (it "doesn't set any default extension"
-        (should= ""
+        (should= "css"
           (:output-extension (extract-options :sass {:sass {}}))))
 
       (it "deletes the output directory"

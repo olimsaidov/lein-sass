@@ -1,7 +1,7 @@
 (ns leiningen.lein-sass.options)
 
 (def ^:private default-options {:src "resources"
-                                :output-extension ""
+                                :output-extension "css"
                                 :delete-output-dir true
                                 :auto-compile-delay 250
                                 })
