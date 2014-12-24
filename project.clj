@@ -10,7 +10,7 @@
                  [com.cemerick/pomegranate "0.2.0"]]
 
   :profiles {:dev {:dependencies [[speclj "2.5.0"]
-                                  [org.rubygems/sass "3.2.9"]]
+                                  [org.rubygems/sass "3.3.0.rc.2"]]
                    :plugins [[speclj "2.5.0"]]
                    :test-paths ["spec/"]
                    :repositories [["gem-jars" "http://deux.gemjars.org"]]}
