@@ -20,7 +20,7 @@
 .my-class
   display: none"]
             (should= ".my-class {\n  display: none; }\n"
-              (engine/render :sass template)))))
+              (engine/render template)))))
 
       (context "scss"
         (before-all
@@ -33,7 +33,7 @@
   display: none;
 }"]
             (should= ".my-class {\n  display: none; }\n"
-              (engine/render :scss template))))))
+              (engine/render template))))))
 
     (context "with options"
       (context "sass"
@@ -48,7 +48,7 @@
 .my-class
   display: none"]
             (should= ".my-class{display:none}\n"
-              (engine/render :sass template)))))
+              (engine/render template)))))
 
       (context "scss"
         (before-all
@@ -63,4 +63,4 @@
   display: none;
 }"]
             (should= ".my-class{display:none}\n"
-              (engine/render :scss template))))))))
+              (engine/render template))))))))

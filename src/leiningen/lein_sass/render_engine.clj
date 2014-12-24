@@ -2,7 +2,8 @@
   (:use leiningen.lein-common.file-utils)
   (:require [clojure.java.io :as io])
   (:import [org.jruby.embed ScriptingContainer LocalContextScope]
-           [org.jruby RubyHash RubySymbol RubyArray]))
+           [org.jruby RubyHash RubySymbol RubyArray]
+           (java.util Date)))
 
 (def ^:private c (ref nil))
 (def ^:private runtime (ref nil))
@@ -47,21 +48,16 @@
         (ref-set rendering-engine (.runScriptlet @c "Sass::Engine"))
         (ref-set rendering-options (build-sass-options options))))))
 
-(defn- sass-or-scss? [src-type]
-  (or (= :sass src-type) (= :scss src-type)))
-
 (defn- source-file-filter [src-type]
   #(let [f %
          extension-filter (extension-filter (name src-type))]
     (and (extension-filter f)
-      (if (sass-or-scss? src-type)
-        (not (.startsWith (.getName f) "_"))
-        true))))
+      (not (.startsWith (.getName f) "_")))))
 
 (defn- files-from [{:keys [src src-type output-directory output-extension]}]
   (dest-files-from (source-file-filter src-type) (name src-type) src output-directory output-extension))
 
-(defn render [src-type template]
+(defn render [template]
   (try
     (let [args (to-array [template @rendering-options])
           engine (.callMethod @c @rendering-engine "new" args Object)]
@@ -70,21 +66,29 @@
       ;; ruby gem will print an error message
       (println "      -> Compilation failed\n\n"))))
 
+(defn rebuild-file?
+  "Given a file descriptor, return true if that file needs to be rebuilt"
+  [src-type file-descriptor]
+  (let [dest-file (io/file (:dest file-descriptor))
+        src-file (io/file (src-type file-descriptor))]
+    (or (not (.exists dest-file))
+      (> (.lastModified src-file) (.lastModified dest-file)))))
+
 (defn render-all!
   ([options watch?] (render-all! options watch? false))
 
   ([{:keys [src-type auto-compile-delay] :as options} watch? force?]
     (ensure-engine-started! options)
     (loop []
-      (doseq [file-descriptor (files-from options)]
-        (let [dest-file (io/file (:dest file-descriptor))
-              src-file (io/file (src-type file-descriptor))]
-          (when (or force?
-                  (not (.exists dest-file))
-                  (> (.lastModified src-file) (.lastModified dest-file)))
-            (println (str "   [" (name src-type) "] - " (java.util.Date.) " - " src-file " -> " dest-file))
-            (io/make-parents dest-file)
-            (spit dest-file (render src-type (slurp (src-type file-descriptor)))))))
+      (let [descriptors (files-from options)
+            building-any? (some #(rebuild-file? src-type %) descriptors)]
+        (doseq [file-descriptor descriptors]
+          (when (or force? building-any?)
+            (let [dest-file (io/file (:dest file-descriptor))
+                  src-file (io/file (src-type file-descriptor))]
+              (println (str "   [" (name src-type) "] - " (Date.) " - " src-file " -> " dest-file))
+              (io/make-parents dest-file)
+              (spit dest-file (render (slurp (src-type file-descriptor))))))))
 
       (when watch?
         (Thread/sleep auto-compile-delay)
