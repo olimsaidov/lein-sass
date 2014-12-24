@@ -28,10 +28,10 @@
         (.put rb-hash key value)))
     rb-hash))
 
-(defn- build-sass-options [{:keys [src src-type output-directory style]}]
+(defn- build-sass-options [{:keys [src src-type style]}]
   (rb-options {:syntax src-type
                :style (or style :nested)
-               :load_paths [src output-directory]}))
+               :load_paths [src]}))
 
 (defn- require-gem [gem-name]
   (.runScriptlet @c (str "require 'rubygems'; require '" (name gem-name) "';")))
