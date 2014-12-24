@@ -28,7 +28,7 @@
 
 (defn- build-sass-options [{:keys [src src-type output-directory style]}]
   (rb-options {:syntax src-type
-               :style  (or style :nested)
+               :style (or style :nested)
                :load_paths [src output-directory]}))
 
 (defn- require-gem [gem-name]
@@ -38,14 +38,14 @@
 (defn- ensure-engine-started! [options]
   (when-not @c
     (dosync
-     (ref-set c (ScriptingContainer. LocalContextScope/THREADSAFE))
+      (ref-set c (ScriptingContainer. LocalContextScope/THREADSAFE))
 
-     (require-gem (:gem-name options))
-     (ref-set runtime (-> (.getProvider @c) .getRuntime))
+      (require-gem (:gem-name options))
+      (ref-set runtime (-> (.getProvider @c) .getRuntime))
 
-     (do
-       (ref-set rendering-engine (.runScriptlet @c "Sass::Engine"))
-       (ref-set rendering-options (build-sass-options options))))))
+      (do
+        (ref-set rendering-engine (.runScriptlet @c "Sass::Engine"))
+        (ref-set rendering-options (build-sass-options options))))))
 
 (defn- sass-or-scss? [src-type]
   (or (= :sass src-type) (= :scss src-type)))
@@ -53,42 +53,42 @@
 (defn- source-file-filter [src-type]
   #(let [f %
          extension-filter (extension-filter (name src-type))]
-     (and (extension-filter f)
-          (if (sass-or-scss? src-type)
-            (not (.startsWith (.getName f) "_"))
-            true))))
+    (and (extension-filter f)
+      (if (sass-or-scss? src-type)
+        (not (.startsWith (.getName f) "_"))
+        true))))
 
 (defn- files-from [{:keys [src src-type output-directory output-extension]}]
   (dest-files-from (source-file-filter src-type) (name src-type) src output-directory output-extension))
 
 (defn render [src-type template]
   (try
-    (let [args         (to-array [template @rendering-options])
-          engine       (.callMethod @c @rendering-engine "new" args Object)]
+    (let [args (to-array [template @rendering-options])
+          engine (.callMethod @c @rendering-engine "new" args Object)]
       (.callMethod @c engine "render" String))
     (catch Exception e
       ;; ruby gem will print an error message
-      (println "      -> Compilation failed\n\n" ))))
+      (println "      -> Compilation failed\n\n"))))
 
 (defn render-all!
   ([options watch?] (render-all! options watch? false))
 
   ([{:keys [src-type auto-compile-delay] :as options} watch? force?]
-     (ensure-engine-started! options)
-     (loop []
-       (doseq [file-descriptor (files-from options)]
-         (let [dest-file (io/file (:dest file-descriptor))
-               src-file (io/file (src-type file-descriptor))]
-           (when (or force?
-                     (not (.exists dest-file))
-                     (> (.lastModified src-file) (.lastModified dest-file)))
-             (println (str "   [" (name src-type) "] - " (java.util.Date.) " - " src-file " -> " dest-file))
-             (io/make-parents dest-file)
-             (spit dest-file (render src-type (slurp (src-type file-descriptor)))))))
+    (ensure-engine-started! options)
+    (loop []
+      (doseq [file-descriptor (files-from options)]
+        (let [dest-file (io/file (:dest file-descriptor))
+              src-file (io/file (src-type file-descriptor))]
+          (when (or force?
+                  (not (.exists dest-file))
+                  (> (.lastModified src-file) (.lastModified dest-file)))
+            (println (str "   [" (name src-type) "] - " (java.util.Date.) " - " src-file " -> " dest-file))
+            (io/make-parents dest-file)
+            (spit dest-file (render src-type (slurp (src-type file-descriptor)))))))
 
-       (when watch?
-         (Thread/sleep auto-compile-delay)
-         (recur)))))
+      (when watch?
+        (Thread/sleep auto-compile-delay)
+        (recur)))))
 
 (defn clean-all! [{:keys [output-directory delete-output-dir] :as options}]
   (doseq [file-descriptor (files-from options)]

@@ -30,8 +30,8 @@
 
 (defn dest-files-from [src-filter src-ext src-dir dest-dir dest-ext]
   (map #(hash-map (keyword src-ext) (.getPath %)
-                  :dest (replace-dest-dir (replace-extension % src-ext dest-ext) src-dir dest-dir))
-       (files-from src-dir src-filter)))
+         :dest (replace-dest-dir (replace-extension % src-ext dest-ext) src-dir dest-dir))
+    (files-from src-dir src-filter)))
 
 (defn exists [dir]
   (and dir (.exists (io/file dir))))

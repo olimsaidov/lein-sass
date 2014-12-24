@@ -42,8 +42,8 @@
   (let [gem-id (symbol (str "org.rubygems/" gem-name))]
     (try
       (add-dependencies :coordinates [[gem-id gem-version]]
-                        :repositories (merge cemerick.pomegranate.aether/maven-central
-                                             {"gem-jars" "http://deux.gemjars.org"}))
+        :repositories (merge cemerick.pomegranate.aether/maven-central
+                        {"gem-jars" "http://deux.gemjars.org"}))
       (catch Exception e
         (do
           (println (.getMessage e))
@@ -60,35 +60,35 @@
 Refer to the README for further details.")))
 
 (defmacro def-lein-task [task-name]
-  (let [type  (name task-name)
+  (let [type (name task-name)
         src-type (keyword task-name)
         fname (symbol type)
-        doc   (str "Compiles " type " files.")
+        doc (str "Compiles " type " files.")
         once-fn (enrich-fn once (once-doc src-type))
-        arg-list ['once 'auto 'clean ]]
+        arg-list ['once 'auto 'clean]]
     `(defn ~task-name
        ~doc
        {:help-arglists '(~arg-list)
         :subtasks [~once-fn ~#'auto ~#'clean]}
        ([~'project]
-          (exit-failure (lhelp/help-for ~type)))
+         (exit-failure (lhelp/help-for ~type)))
 
        ([~'project ~'subtask & ~'args]
-          (~ensure-using-lein2)
-          (if-let [options# (extract-options ~src-type ~'project)]
-            (do (#'ensure-gem-installed! options#)
-                (case ~'subtask
-                  "once"  (~once  options#)
-                  "auto"  (~auto  options#)
-                  "clean" (~clean options#)
-                  (task-not-found ~'subtask)))
-            (exit-failure))))))
+         (~ensure-using-lein2)
+         (if-let [options# (extract-options ~src-type ~'project)]
+           (do (#'ensure-gem-installed! options#)
+               (case ~'subtask
+                 "once" (~once options#)
+                 "auto" (~auto options#)
+                 "clean" (~clean options#)
+                 (task-not-found ~'subtask)))
+           (exit-failure))))))
 
 (defn- task-fn-for [subtask]
   ;;(ns-resolve current-ns (symbol (name subtask)))
   (case subtask
-    :once  once
-    :auto  auto
+    :once once
+    :auto auto
     :clean clean))
 
 (defn standard-hook [src-type subtask]

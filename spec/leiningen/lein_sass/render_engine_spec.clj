@@ -18,9 +18,9 @@
         (it "render the sass template correctly using sass gem"
           (let [template "
 .my-class
-  display: none" ]
+  display: none"]
             (should= ".my-class {\n  display: none; }\n"
-                     (engine/render :sass template)))))
+              (engine/render :sass template)))))
 
       (context "scss"
         (before-all
@@ -31,9 +31,9 @@
           (let [template "
 .my-class {
   display: none;
-}" ]
+}"]
             (should= ".my-class {\n  display: none; }\n"
-                     (engine/render :scss template))))))
+              (engine/render :scss template))))))
 
     (context "with options"
       (context "sass"
@@ -46,9 +46,9 @@
         (it "uses the correct style to render"
           (let [template "
 .my-class
-  display: none" ]
+  display: none"]
             (should= ".my-class{display:none}\n"
-                     (engine/render :sass template)))))
+              (engine/render :sass template)))))
 
       (context "scss"
         (before-all
@@ -61,6 +61,6 @@
           (let [template "
 .my-class {
   display: none;
-}" ]
+}"]
             (should= ".my-class{display:none}\n"
-                     (engine/render :scss template))))))))
+              (engine/render :scss template))))))))

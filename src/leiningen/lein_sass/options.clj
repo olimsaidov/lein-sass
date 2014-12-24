@@ -7,7 +7,7 @@
                                 })
 
 (defn- normalize-hooks [options]
-  (let [hooks            (into #{} (:ignore-hooks options))
+  (let [hooks (into #{} (:ignore-hooks options))
         normalized-hooks (if (:compile hooks)
                            (disj (conj hooks :once) :compile)
                            hooks)]
@@ -24,11 +24,11 @@
 
 (defn- normalize-options [src-type options]
   (->> (src-type options)
-       normalize-hooks
-       (merge (default-gem src-type))
-       (merge default-options)
-       (merge (compression-style src-type))
-       (merge {:src-type src-type})))
+    normalize-hooks
+    (merge (default-gem src-type))
+    (merge default-options)
+    (merge (compression-style src-type))
+    (merge {:src-type src-type})))
 
 (defn extract-options [src-type project]
   (if (src-type project)
