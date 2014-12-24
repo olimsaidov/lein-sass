@@ -7,7 +7,8 @@
 
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.jruby/jruby-complete "1.7.18"]
-                 [com.cemerick/pomegranate "0.2.0"]]
+                 [com.cemerick/pomegranate "0.2.0"]
+                 [clojure-watch "LATEST"]]
 
   :profiles {:dev {:dependencies [[speclj "2.5.0"]
                                   [org.rubygems/sass "3.3.0.rc.2"]]

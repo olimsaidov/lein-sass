@@ -1,6 +1,7 @@
 (ns leiningen.lein-sass.render-engine
   (:use leiningen.lein-common.file-utils)
-  (:require [clojure.java.io :as io])
+  (:require [clojure.java.io :as io]
+            [clojure-watch.core :refer [start-watch]])
   (:import [org.jruby.embed ScriptingContainer LocalContextScope]
            [org.jruby RubyHash RubySymbol RubyArray]
            (java.util Date)))
@@ -68,7 +69,7 @@
       ;; ruby gem will print an error message
       (println "      -> Compilation failed\n\n"))))
 
-(defn rebuild-file?
+(defn- rebuild-file?
   "Given a file descriptor, return true if that file needs to be rebuilt"
   [src-type file-descriptor]
   (let [dest-file (io/file (:dest file-descriptor))
@@ -76,25 +77,31 @@
     (or (not (.exists dest-file))
       (> (.lastModified src-file) (.lastModified dest-file)))))
 
-(defn render-all!
-  ([options watch?] (render-all! options watch? false))
+(defn render-once!
+  [{:keys [src-type] :as options} force?]
+  (ensure-engine-started! options)
+  (let [descriptors (files-from options)
+        building-any? (some #(rebuild-file? src-type %) descriptors)]
+    (doseq [file-descriptor descriptors]
+      (when (or force? building-any?)
+        (let [dest-file (io/file (:dest file-descriptor))
+              src-file (io/file (src-type file-descriptor))]
+          (println (str "   [" (name src-type) "] - " (Date.) " - " src-file " -> " dest-file))
+          (io/make-parents dest-file)
+          (spit dest-file (render (slurp (src-type file-descriptor)))))))))
 
-  ([{:keys [src-type auto-compile-delay] :as options} watch? force?]
-    (ensure-engine-started! options)
+(defn render-loop!
+  ([options force?]
+    (render-once! options force?)
+    (start-watch [{:path (:src options)
+                   :event-types [:create :modify :delete]
+                   :bootstrap (fn [path])
+                   :callback (fn [event filename]
+                               (println event filename)
+                               (render-once! options false))
+                   :options {:recursive true}}])
     (loop []
-      (let [descriptors (files-from options)
-            building-any? (some #(rebuild-file? src-type %) descriptors)]
-        (doseq [file-descriptor descriptors]
-          (when (or force? building-any?)
-            (let [dest-file (io/file (:dest file-descriptor))
-                  src-file (io/file (src-type file-descriptor))]
-              (println (str "   [" (name src-type) "] - " (Date.) " - " src-file " -> " dest-file))
-              (io/make-parents dest-file)
-              (spit dest-file (render (slurp (src-type file-descriptor))))))))
-
-      (when watch?
-        (Thread/sleep auto-compile-delay)
-        (recur)))))
+      (recur))))
 
 (defn clean-all! [{:keys [output-directory delete-output-dir] :as options}]
   (doseq [file-descriptor (files-from options)]
