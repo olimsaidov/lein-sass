@@ -1,4 +1,4 @@
-# lein-sass
+# lein-sass [![Build Status](https://travis-ci.org/101loops/lein-sass.svg)](https://travis-ci.org/101loops/lein-sass)
 
 Leiningen plugin to compile sass and scss files.
 
