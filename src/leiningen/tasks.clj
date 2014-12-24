@@ -13,7 +13,7 @@
 (defn- once [options]
   (let [type (name (:src-type options))]
     (println "Compiling" type "files located in" (:src options))
-    (render-once! options true)))
+    (render-once! options)))
 
 
 (defn- auto
@@ -21,7 +21,7 @@
   [options]
   (let [type (name (:src-type options))]
     (println "Ready to compile" type "files located in" (:src options))
-    (render-loop! options true)))
+    (render-loop! options)))
 
 
 (defn- clean
