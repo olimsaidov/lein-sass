@@ -1,6 +1,6 @@
 (ns leiningen.tasks
-  (:use leiningen.lein-haml-sass.render-engine
-        leiningen.lein-haml-sass.options
+  (:use leiningen.lein-sass.render-engine
+        leiningen.lein-sass.options
         [cemerick.pomegranate :only [add-dependencies]]
         leiningen.lein-common.lein-utils))
 

@@ -1,6 +1,6 @@
-(ns leiningen.lein-haml-sass.render-engine-spec
+(ns leiningen.lein-sass.render-engine-spec
   (:use [speclj.core])
-  (:require [leiningen.lein-haml-sass.render-engine :as engine]))
+  (:require [leiningen.lein-sass.render-engine :as engine]))
 
 (describe "render-engine"
 
@@ -9,15 +9,6 @@
     (with-all ruby-scripting-container #'engine/c)
 
     (context "without options"
-      (context "haml"
-        (before-all
-          (dosync (ref-set @@ruby-scripting-container nil))
-          (@ensure-engine-started! {:gem-name "haml"}))
-
-        (it "render the haml template correctly using haml gem"
-          (let [template "%html.a-class" ]
-            (should= "<html class='a-class'></html>\n"
-                     (engine/render :haml template)))))
 
       (context "sass"
         (before-all

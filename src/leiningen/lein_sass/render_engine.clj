@@ -1,4 +1,4 @@
-(ns leiningen.lein-haml-sass.render-engine
+(ns leiningen.lein-sass.render-engine
   (:use leiningen.lein-common.file-utils)
   (:require [clojure.java.io :as io])
   (:import [org.jruby.embed ScriptingContainer LocalContextScope]
@@ -43,13 +43,9 @@
      (require-gem (:gem-name options))
      (ref-set runtime (-> (.getProvider @c) .getRuntime))
 
-     (if (= (:gem-name options) "haml")
-       (do
-         (ref-set rendering-engine (.runScriptlet @c "Haml::Engine"))
-         (ref-set rendering-options (RubyHash. @runtime)))
-       (do
-         (ref-set rendering-engine (.runScriptlet @c "Sass::Engine"))
-         (ref-set rendering-options (build-sass-options options)))))))
+     (do
+       (ref-set rendering-engine (.runScriptlet @c "Sass::Engine"))
+       (ref-set rendering-options (build-sass-options options))))))
 
 (defn- sass-or-scss? [src-type]
   (or (= :sass src-type) (= :scss src-type)))

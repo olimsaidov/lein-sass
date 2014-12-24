@@ -1,4 +1,4 @@
-(ns leiningen.lein-haml-sass.options)
+(ns leiningen.lein-sass.options)
 
 (def ^:private default-options {:src "resources"
                                 :output-extension ""
@@ -15,7 +15,6 @@
 
 (defn- default-gem [src-type]
   (case src-type
-    :haml {:gem-name "haml" :gem-version "4.0.1"}
     :sass {:gem-name "sass" :gem-version "3.2.7"}
     :scss {:gem-name "sass" :gem-version "3.2.7"}))
 

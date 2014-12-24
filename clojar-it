@@ -8,7 +8,7 @@ else
   VERSION=$1
 
   function clean_up {
-    echo "Deleting lein-haml-sass jars"
+    echo "Deleting lein-sass jars"
     rm -rf target
     echo "Removing pom.xml file"
     rm -f pom.xml
@@ -37,7 +37,7 @@ else
   if [ "$RET_CODE" == 0 ]
   then
     echo "Pushing library to clojars"
-    scp -i ~/.leiningen/id_rsa pom.xml target/lein-haml-sass*.jar clojars@clojars.org:
+    scp -i ~/.leiningen/id_rsa pom.xml target/lein-sass*.jar clojars@clojars.org:
     RET_CODE=$?
   fi
 
