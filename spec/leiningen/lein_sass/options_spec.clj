@@ -52,10 +52,6 @@
       (it "deletes the output directory"
         (should (:delete-output-dir (extract-options :sass {:sass {}}))))
 
-      (it "uses a compile delay of 250 ms"
-        (should= 250
-          (:auto-compile-delay (extract-options :sass {:sass {}}))))
-
       (it "contains a :nested formatting style for sass"
         (should= :nested (:style (extract-options :sass {:sass {}}))))
 
@@ -73,10 +69,6 @@
 
       (it "lets you unset the delete outpout directory flag"
         (should-not (:delete-output-dir (extract-options :sass {:sass {:delete-output-dir false}}))))
-
-      (it "lets you set a compile delay"
-        (should= 500
-          (:auto-compile-delay (extract-options :sass {:sass {:auto-compile-delay 500}}))))
 
       (it "lets you set the formatting style for sass"
         (should= :compressed (:style (extract-options :sass {:sass {:style :compressed}}))))

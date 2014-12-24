@@ -2,9 +2,7 @@
 
 (def ^:private default-options {:src "resources"
                                 :output-extension "css"
-                                :delete-output-dir true
-                                :auto-compile-delay 250
-                                })
+                                :delete-output-dir true})
 
 (defn- normalize-hooks [options]
   (let [hooks (into #{} (:ignore-hooks options))
