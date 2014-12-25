@@ -29,6 +29,7 @@ Here is an example of `project.clj` with all the possible definitions.
 
          ;; Other options (provided are default values)
          ;; :delete-output-dir true
+         ;; :style :nested
          }
 ```
 
