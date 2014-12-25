@@ -58,34 +58,36 @@
       (it "compiles the files in the correct directory"
         (sass "spec-map" "once")
 
-        (let [out-files (file-seq (io/file "spec/out"))]
+        (let [out-files (file-seq (io/file "spec/out/map"))]
           (should= 5 (count out-files)))
 
-        (let [file-content (slurp "spec/out/foo.css")
+        (let [file-content (slurp "spec/out/map/foo.css")
               expected-content ".wide {\n  width: 100%; }\n\n.foo {\n  display: block; }\n\n/*# sourceMappingURL=foo.css.map */"]
           (should= expected-content file-content))
+        (should (.exists (io/file "spec/out/map/foo.css.map")))
 
-        (let [file-content (slurp "spec/out/bar.css")
+        (let [file-content (slurp "spec/out/map/bar.css")
               expected-content ".bar {\n  display: none; }\n\n/*# sourceMappingURL=bar.css.map */"]
-          (should= expected-content file-content))))
+          (should= expected-content file-content))
+        (should (.exists (io/file "spec/out/map/bar.css.map")))))
 
     (context "clean"
       (it "removes all artifacts that were created by sass task"
         (sass "spec-map" "once")
-        (should (.exists (io/file "spec/out")))
+        (should (.exists (io/file "spec/out/map")))
 
         (sass "spec-map" "clean")
-        (should-not (.exists (io/file "spec/out"))))
+        (should-not (.exists (io/file "spec/out/map"))))
 
       (it "only deletes the artifacts that were created by sass task"
         (sass "spec-map" "once")
-        (should (.exists (io/file "spec/out")))
+        (should (.exists (io/file "spec/out/map")))
 
-        (spit "spec/out/not-generated" "a non generated content")
+        (spit "spec/out/map/not-generated" "a non generated content")
 
         (sass "spec-map" "clean")
-        (should (.exists (io/file "spec/out/not-generated")))
-        (should-not (.exists (io/file "spec/out/bar.css")))
-        (should-not (.exists (io/file "spec/out/bar.css.map")))
-        (should-not (.exists (io/file "spec/out/foo.css")))
-        (should-not (.exists (io/file "spec/out/foo.css.map")))))))
+        (should (.exists (io/file "spec/out/map/not-generated")))
+        (should-not (.exists (io/file "spec/out/map/bar.css")))
+        (should-not (.exists (io/file "spec/out/map/bar.css.map")))
+        (should-not (.exists (io/file "spec/out/map/foo.css")))
+        (should-not (.exists (io/file "spec/out/map/foo.css.map")))))))

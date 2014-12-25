@@ -21,7 +21,7 @@
                            :output-directory "spec/out"}}
              :spec-map {:sass {:src "spec/files"
                            :source-maps true
-                           :output-directory "spec/out"}}}
+                           :output-directory "spec/out/map"}}}
 
   :eval-in-leiningen true
   :min-lein-version "2.0.0"
