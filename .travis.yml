@@ -7,7 +7,10 @@ before_install:
   - ./script/ci-install-deps
   - ./script/ci-install-compiler
   - ./script/ci-build-libsass
+  - ls -la $HOME/libsass/bin
+  - ls -la $CWD/bin
   - export PATH=$PATH:$HOME/libsass/bin
+  - echo $PATH
   - sassc --help
 
 script: lein2 spec
