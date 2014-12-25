@@ -7,8 +7,10 @@ before_install:
   - ./script/ci-install-deps
   - ./script/ci-install-compiler
   - ./script/ci-build-libsass
-  - ls -la $HOME/libsass/bin
+  - ls -la $HOME
+  - ls -la $CWD
   - ls -la $CWD/bin
+  - ls -la $HOME/libsass/bin
   - export PATH=$PATH:$HOME/libsass/bin
   - echo $PATH
   - sassc --help
