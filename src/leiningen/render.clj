@@ -14,7 +14,6 @@
           sass-style (name style)
           opts [ "-t" sass-style src-path dest-path]
           add-opts (if source-maps ["-m"] [])]
-      ;(println (concat "sassc" add-opts opts))
       (apply shell/sh (concat ["sassc"] add-opts opts)))))
 
 (defn render-once!
