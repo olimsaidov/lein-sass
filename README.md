@@ -27,8 +27,9 @@ Here is an example of `project.clj` with all the possible definitions.
   :sass {:src "resources/sass"
          :output-directory "resources/public/css"
 
-         ;; Other options (provided are default values)
+         ;; other options (provided are default values):
          ;; :delete-output-dir true
+         ;; :source-maps true
          ;; :style :nested
          }
 ```

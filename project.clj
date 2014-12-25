@@ -17,20 +17,11 @@
                    :test-paths ["spec/"]
                    :repositories [["gem-jars" "http://deux.gemjars.org"]]}
 
-             :plugin-example {
-                              ;; Example for adding lein hooks
-                              ;; :hooks [leiningen.sass]
-
-                              ;; Example on how to use lein-sass
-
-                              :sass {:src "spec/files"
-                                     :output-directory "spec/out"
-                                     ;; Other options (provided are default values)
-                                     ;; :delete-output-dir true ;; -> when running lein clean it will delete the output directory if it does not contain any file
-                                     :style :nested ;; valid: :nested, :expanded, :compact, :compressed
-                                     }
-                              }
-             }
+             :spec {:sass {:src "spec/files"
+                           :output-directory "spec/out"}}
+             :spec-map {:sass {:src "spec/files"
+                           :source-maps true
+                           :output-directory "spec/out"}}}
 
   :eval-in-leiningen true
   :min-lein-version "2.0.0"

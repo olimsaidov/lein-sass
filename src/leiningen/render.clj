@@ -5,11 +5,17 @@
             [clojure.java.io :as io]))
 
 (defn render
-  [src-file dest-file options]
+  [src-file dest-file {:keys [style source-maps]}]
   (when (not (is-partial? src-file))
     (io/make-parents dest-file)
     (println (str "  [sass] - " (.getName src-file)))
-    (shell/sh "sassc" "-t" (name (:style options)) (.getPath src-file) (.getPath dest-file))))
+    (let [src-path (.getPath src-file)
+          dest-path (.getPath dest-file)
+          sass-style (name style)
+          opts [ "-t" sass-style src-path dest-path]
+          add-opts (if source-maps ["-m"] [])]
+      ;(println (concat "sassc" add-opts opts))
+      (apply shell/sh (concat ["sassc"] add-opts opts)))))
 
 (defn render-once!
   [options]
