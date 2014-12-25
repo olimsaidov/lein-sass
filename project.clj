@@ -19,9 +19,10 @@
 
              :spec {:sass {:src "spec/files"
                            :output-directory "spec/out"}}
+
              :spec-map {:sass {:src "spec/files"
-                           :source-maps true
-                           :output-directory "spec/out/map"}}}
+                               :source-maps true
+                               :output-directory "spec/out/map"}}}
 
   :eval-in-leiningen true
   :min-lein-version "2.0.0"
