@@ -7,7 +7,9 @@ before_install:
   - ./script/ci-install-deps
   - ./script/ci-install-compiler
   - ./script/ci-build-libsass
+  - ls -la $PWD
   - export PATH=$PATH:$PWD
+  - echo $PATH
   - sassc --help
 
 script: lein2 spec
