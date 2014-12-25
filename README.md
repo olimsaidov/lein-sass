@@ -7,7 +7,7 @@ Leiningen plugin to compile SASS/SCSS files with [SassC](https://github.com/sass
 
 ## Installation
 
-You can install the plugin by adding lein-sass to your `project.clj` file in the `plugin` section:
+You can install the plugin by adding lein-sass to your `project.clj` file in the `plugins` section:
 
 ```clj
 (defproject example "1.0.0"
@@ -18,9 +18,7 @@ You can install the plugin by adding lein-sass to your `project.clj` file in the
 For example on OSX run `brew install sassc`.
 
 
-## configuration
-
-The configuration for sass is specified under the `:sass` sections of your `project.clj.
+## Configuration
 
 Here is an example of `project.clj` with all the possible definitions.
 
