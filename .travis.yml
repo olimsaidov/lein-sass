@@ -7,8 +7,8 @@ before_install:
   - ./script/ci-install-deps
   - ./script/ci-install-compiler
   - ./script/ci-build-libsass
-  - ls -la $PWD
-  - export PATH=$PATH:$PWD
+  - ls -la $PWD/sassc
+  - export PATH=$PATH:$PWD/sassc/bin
   - echo $PATH
   - sassc --help
 
