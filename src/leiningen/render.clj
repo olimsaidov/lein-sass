@@ -13,7 +13,7 @@
           sass-style (name style)
           opts [ "-t" sass-style src-path dest-path]
           add-opts (if source-maps ["-m"] [])]
-      (println (str "  [sass] - " (.getName src-file) " (source maps: " source-maps ")"))
+      (println (str "  [sass] - " (.getName src-file)))
       (apply shell/sh (concat ["sassc"] add-opts opts)))))
 
 (defn render-once!
