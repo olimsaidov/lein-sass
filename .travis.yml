@@ -4,6 +4,8 @@ lein: lein2
 before_install:
   - git clone https://github.com/sass/libsass.git
   - cd libsass && git submodule init && git submodule update
+  - sh ./script/ci-install-deps
+  - sh ./script/ci-install-compiler
   - sh ./script/ci-build-libsass
   - export PATH=$PATH:$PWD/bin
 
