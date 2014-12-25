@@ -1,9 +1,34 @@
-(ns leiningen.lein-common.file-util-spec
+(ns leiningen.utils
   (:use [speclj.core]
-        [leiningen.lein-common.file-utils])
+        [leiningen.utils])
   (:require [clojure.java.io :as io]))
 
 (describe "file-util"
+
+  (describe "fn normalize-options"
+
+    (context "defaults"
+      (it "uses the 'resources' folder"
+        (should= "resources"
+          (:src (normalize-options {}))))
+
+      (it "deletes the output directory"
+        (should (:delete-output-dir (normalize-options {}))))
+
+      (it "contains a :nested formatting style for sass"
+        (should= :nested (:style (normalize-options {})))))
+
+    (context "overwriting defaults"
+      (it "lets you set sources folder"
+        (should= "other/folder"
+          (:src (normalize-options {:src "other/folder"}))))
+
+      (it "lets you unset the delete outpout directory flag"
+        (should-not (:delete-output-dir (normalize-options {:delete-output-dir false}))))
+
+      (it "lets you set the formatting style for sass"
+        (should= :compressed (:style (normalize-options {:style :compressed}))))))
+
 
   (describe "fn dir-empty?"
     (it "is true when the directory is empty"
