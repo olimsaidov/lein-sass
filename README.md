@@ -57,6 +57,22 @@ $ lein sassc clean
 ```
 
 
+## Hooks
+
+The following hooks are supported by lein-sass:
+
+```
+$ lein compile
+$ lein clean
+```
+
+To enable the hooks, add the following to your `project.clj` file:
+
+```clj
+:hooks [leiningen.sass]
+```
+
+
 ## License
 
 Copyright (C) 2013 Renaud Tircher, 2014 Stephan Behnke

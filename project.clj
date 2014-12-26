@@ -24,6 +24,8 @@
                                :source-maps true
                                :output-directory "spec/out/map"}}}
 
+  :hooks [leiningen.sass]
+
   :eval-in-leiningen true
   :min-lein-version "2.0.0"
   )
