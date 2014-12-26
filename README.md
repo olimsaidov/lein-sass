@@ -11,7 +11,7 @@ You can install the plugin by adding lein-sass to your `project.clj` file in the
 
 ```clj
 (defproject example "1.0.0"
-  :plugins [[lein-sass "0.3.0-SNAPSHOT"]])
+  :plugins [[lein-sass "0.3.0"]])
 ```
 
 [SassC](https://github.com/sass/sassc) needs to be installed manually.
