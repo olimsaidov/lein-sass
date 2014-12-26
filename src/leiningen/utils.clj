@@ -5,13 +5,14 @@
 
 (def ^:private default-options {:src "resources"
                                 :style :nested
-                                :delete-output-dir true})
+                                :delete-output-dir true
+                                :output-directory "resources/public/css"})
 
 (defn normalize-options
   [options]
   (merge default-options options))
 
-(defn- dest-dir
+(defn- dest-file
   [src-file src-dir dest-dir]
   (let [src-dir (.getCanonicalPath (io/file src-dir))
         dest-dir (.getCanonicalPath (io/file dest-dir))
@@ -28,8 +29,7 @@
                         ".sass" true
                         false))
         source-files (fs/find-files* src file-filter)]
-    ;(replace-extension % src-ext dest-ext) src-dir dest-dir))
-    (reduce #(assoc %1 %2 (io/file (dest-dir %2 src output-directory))) {} source-files)))
+    (reduce #(assoc %1 %2 (io/file (dest-file %2 src output-directory))) {} source-files)))
 
 (defn is-partial?
   [file]
