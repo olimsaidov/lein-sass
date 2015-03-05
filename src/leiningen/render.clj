@@ -2,7 +2,8 @@
   (:use leiningen.utils)
   (:require [clojure-watch.core :refer [start-watch]]
             [clojure.java.shell :as shell]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io])
+  (:import java.lang.Thread))
 
 (defn render
   [src-file dest-file {:keys [style source-maps]}]
@@ -29,5 +30,6 @@
                    :event-types [:create :modify :delete]
                    :callback (fn [_ _] (render-once! options))
                    :options {:recursive true}}])
-    (loop []
-      (recur))))
+    (let [t (Thread/currentThread)]
+      (locking t
+        (.wait t)))))
