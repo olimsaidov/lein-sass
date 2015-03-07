@@ -1,4 +1,4 @@
-(defproject lein-sass "0.3.6-SNAPSHOT"
+(defproject lein-sass "0.3.7-SNAPSHOT"
   :description "SASS autobuilder plugin"
   :url "https://github.com/101loops/lein-sass"
   :license {:name "Eclipse Public License - v 1.0"
@@ -6,16 +6,13 @@
             :distribution :repo}
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.jruby/jruby-complete "1.7.18"]
                  [com.cemerick/pomegranate "0.2.0"]
                  [clojure-watch "LATEST"]
                  [me.raynes/fs "1.4.6"]]
 
-  :profiles {:dev {:dependencies [[speclj "2.5.0"]
-                                  [org.rubygems/sass "3.3.0.rc.2"]]
+  :profiles {:dev {:dependencies [[speclj "2.5.0"]]
                    :plugins [[speclj "2.5.0"]]
-                   :test-paths ["spec/"]
-                   :repositories [["gem-jars" "http://deux.gemjars.org"]]}
+                   :test-paths ["spec/"]}
 
              :spec {:sass {:src "spec/files"
                            :output-directory "spec/out"}}

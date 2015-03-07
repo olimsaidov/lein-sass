@@ -9,3 +9,4 @@
 /spec/out/
 /target
 /.sass-cache/
+*.projectile

@@ -5,17 +5,27 @@
             [clojure.java.io :as io])
   (:import java.lang.Thread))
 
+(defn build-command-vec [src-file dest-file {:keys [command style source-maps]}]
+  (let [src-path (.getPath src-file)
+        dest-path (.getPath dest-file)
+        sass-style (name style)]
+    (case command
+      :sassc (let [opts [ "-t" sass-style src-path dest-path]
+                   add-opts (if source-maps ["-m"] [])]
+                 (concat ["sassc"] add-opts opts))
+
+      :sass (let [opts [ "--update" "--force" "-t" sass-style (str src-path ":" dest-path)]
+                  add-opts (if source-maps ["--sourcemap=auto"] [])]
+                 (concat ["sass"] add-opts opts)))))
+
 (defn render
-  [src-file dest-file {:keys [style source-maps]}]
+  [src-file dest-file options]
   (when (not (is-partial? src-file))
     (io/make-parents dest-file)
-    (let [src-path (.getPath src-file)
-          dest-path (.getPath dest-file)
-          sass-style (name style)
-          opts [ "-t" sass-style src-path dest-path]
-          add-opts (if source-maps ["-m"] [])]
+    (let [opts-vec (build-command-vec src-file dest-file options)]
       (println (str "  [sass] - " (.getName src-file)))
-      (apply shell/sh (concat ["sassc"] add-opts opts)))))
+      ;;(println opts-vec)
+      (apply shell/sh opts-vec))))
 
 (defn render-once!
   [options]

@@ -5,6 +5,7 @@
 
 (def ^:private default-options {:src "resources"
                                 :style :nested
+                                :command :sassc
                                 :delete-output-dir true
                                 :output-directory "resources/public/css"})
 
