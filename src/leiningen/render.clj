@@ -15,7 +15,7 @@
           opts [ "-t" sass-style src-path dest-path]
           add-opts (if source-maps ["-m"] [])]
       (println (str "  [sass] - " (.getName src-file)))
-      (apply shell/sh (concat ["sassc"] add-opts opts)))))
+      (println (:err (apply shell/sh (concat ["sassc"] add-opts opts)))))))
 
 (defn render-once!
   [options]
