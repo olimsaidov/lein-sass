@@ -20,7 +20,7 @@
 
 (defn render
   [src-file dest-file options]
-  (when (not (is-partial? src-file))
+  (when (and (not (is-partial? src-file)) (name-matches? src-file options))
     (io/make-parents dest-file)
     (let [opts-vec (build-command-vec src-file dest-file options)]
       (println (str "  [sass] - " (.getName src-file)))

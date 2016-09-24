@@ -4,6 +4,7 @@
             [clojure.string :as string]))
 
 (def ^:private default-options {:src "resources"
+                                :matches :all
                                 :style :nested
                                 :command :sassc
                                 :delete-output-dir true
@@ -35,6 +36,15 @@
 (defn is-partial?
   [file]
   (.startsWith (.getName file) "_"))
+
+(defn name-matches?
+  [file options]
+  (if (= (:matches options) :all)
+    true
+    (let [file-str (.getAbsolutePath file)
+          match-arr (:matches options)]
+          (boolean (some (fn [match]
+                           (> (.indexOf file-str match) -1)) match-arr)))))
 
 (defn exists
   [dir]

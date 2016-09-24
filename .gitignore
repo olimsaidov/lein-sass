@@ -10,3 +10,5 @@
 /target
 /.sass-cache/
 *.projectile
+/.idea/
+*.iml
