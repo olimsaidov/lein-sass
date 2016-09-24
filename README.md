@@ -12,11 +12,14 @@ You can install the plugin by adding lein-sass to your `project.clj` file in the
 
 ```clj
 (defproject example "1.0.0"
-  :plugins [[lein-sass "0.3.7-SNAPSHOT"]])
+  :plugins [[lein-sass "0.4.0"]])
 ```
 
 [SassC](https://github.com/sass/sassc) needs to be installed manually.
 For example on OSX run `brew install sassc`.
+
+To install SassC on Ubuntu (should similarly apply to other Unixes) I usually follow this recipe:
+http://askubuntu.com/questions/566675/how-to-install-node-sass-gulp-sass-on-ubuntu-14-04-or-linux-mint-17/566681#566681
 
 Alternatively you can use sass to compile your sass or scss
 files. This needs to be installed as well, but the process might be straight forward. Please see http://sass-lang.com/install for install instructions.
