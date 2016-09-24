@@ -25,7 +25,7 @@
     (let [opts-vec (build-command-vec src-file dest-file options)]
       (println (str "  [sass] - " (.getName src-file)))
       ;;(println opts-vec)
-      (apply shell/sh opts-vec))))
+      (println (:err (apply shell/sh opts-vec))))))
 
 (defn render-once!
   [options]
