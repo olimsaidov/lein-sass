@@ -15,7 +15,7 @@
                  (concat ["sassc"] add-opts opts))
 
       :sass (let [opts [ "--update" "--force" "-t" sass-style (str src-path ":" dest-path)]
-                  add-opts (if source-maps ["--sourcemap=auto"] [])]
+                  add-opts (if source-maps ["--sourcemap=auto"] ["--sourcemap=none"])]
                  (concat ["sass"] add-opts opts)))))
 
 (defn render

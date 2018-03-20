@@ -8,7 +8,8 @@
                                 :style :nested
                                 :command :sassc
                                 :delete-output-dir true
-                                :output-directory "resources/public/css"})
+                                :output-directory "resources/public/css"
+                                :source-maps true})
 
 (defn normalize-options
   [options]
