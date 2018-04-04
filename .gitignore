@@ -12,3 +12,4 @@
 *.projectile
 /.idea/
 *.iml
+*.lein-repl-history
