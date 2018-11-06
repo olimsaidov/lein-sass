@@ -41,7 +41,9 @@
     (let [opts-vec (build-command-vec src-file dest-file options)]
       (println (str "  [sass] - " (.getName src-file)))
       ;;(println opts-vec)
-      (println (:err (apply shell/sh opts-vec))))))
+      (let [error (:err (apply shell/sh opts-vec))]
+        (when (seq error)
+          (println (str "  [sass] - error: " error)))))))
 
 (defn render-once!
   [options]
